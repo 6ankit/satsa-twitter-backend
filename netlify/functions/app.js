@@ -4,6 +4,7 @@ const mysql=require("mysql2");
 const cors=require("cors");
 const cookieParser = require('cookie-parser');
 // const { parseAst } = require("vite");
+const { createServer } = require('@netlify/functions');
 
 app.use(cors());
 app.use(cookieParser());
@@ -121,9 +122,11 @@ app.get("/",(req,res)=>{
     res.send(err);
   }
 })
+const handler = createServer(app);
 
+exports.handler = handler;
 
-const PORT = 3000;
+const port = process.env.PORT || 3000;
 
 app.listen(PORT,()=>{
   console.log("Server is running on port 3000");
